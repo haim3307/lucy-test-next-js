@@ -15,7 +15,12 @@ const routerHandler = routes.getRequestHandler(app)
 
 const Diamond = require('./models/diamond')
 server.get('/api/diamonds', function (req, res) {
-  let q = Diamond.find({})
+  let findQuery = {}
+  if ('carat' in req.query) {
+    let carat = req.query.carat.split('-')
+    findQuery['Carat'] = { $gte: parseFloat(carat[0]), $lte: parseFloat(carat[1]) }
+  }
+  let q = Diamond.find(findQuery)
   q.limit(100)
   q.exec((err, diamonds) => {
     res.send(diamonds)

@@ -33,9 +33,10 @@ class IndexPage extends Component {
     const newKitten = { name }
     this.props.dispatch(reduxApi.actions.kittens.post({}, { body: JSON.stringify(newKitten) }, callbackWhenDone))
   }
-  async handleUpdateGallery () {
+  async handleUpdateGallery (prop,val) {
     //const diamonds = await this.props.dispatch()
-    this.props.dispatch(reduxApi.actions.diamonds.get('1', 'test'))
+
+    this.props.dispatch(reduxApi.actions.diamonds.get({[prop]:val}))
   }
   render () {
     const { diamonds } = this.props// dd

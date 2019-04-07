@@ -34,8 +34,8 @@ const thisReduxApi = reduxApi({
     url: '/api/diamonds/:id/:name',
     crud: true, // Make CRUD actions: https://github.com/lexich/redux-api/blob/master/docs/DOCS.md#crud
     helpers: {
-      get (id, name) {
-        return [ { id, name } ]
+      get (query) {
+        return [query]
       }
     },
     // base endpoint options `fetch(url, options)`
