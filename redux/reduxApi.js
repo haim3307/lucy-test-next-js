@@ -30,8 +30,8 @@ const thisReduxApi = reduxApi({
   // oneKitten: '/api/kittens/:id',
 
   // Complex endpoint description
-  kittens: {
-    url: '/api/kittens/:id',
+  diamonds: {
+    url: '/api/diamonds/:id',
     crud: true, // Make CRUD actions: https://github.com/lexich/redux-api/blob/master/docs/DOCS.md#crud
 
     // base endpoint options `fetch(url, options)`
@@ -76,4 +76,4 @@ const mapStateToProps = (endpointNames, reduxState) => {
 
 export const withReduxEndpoints = (PageComponent, endpointNames) => connect(mapStateToProps.bind(undefined, endpointNames))(PageComponent)
 // Define custom endpoints/providers here:
-export const withKittens = PageComponent => withReduxEndpoints(PageComponent, ['kittens'])
+export const withDiamonds = PageComponent => withReduxEndpoints(PageComponent, ['diamonds'])

@@ -33,7 +33,6 @@ app.prepare().then(() => {
   mongoose.connect(config.databaseUrl, { useMongoClient: true })
   const db = mongoose.connection
   db.on('error', console.error.bind(console, 'connection error:'))
-
   // REST API routes
   const rootPath = require('path').join(__dirname, '/..')
   glob.sync(rootPath + '/server/api/*.js').forEach(controllerPath => {

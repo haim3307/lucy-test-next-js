@@ -1,16 +1,19 @@
 import { Component } from 'react'
 
-import reduxApi, { withKittens } from '../redux/reduxApi.js'
+import reduxApi, { withDiamonds } from '../redux/reduxApi.js'
 
 import { Link } from '../server/routes.js'
 import PageHead from '../components/PageHead'
-import KittenItem from '../components/KittenItem'
+import MinMaxFilter from '../components/MinMaxFilter'
+
+import Table from 'react-bootstrap/Table'
 
 class IndexPage extends Component {
   static async getInitialProps ({ store, isServer, pathname, query }) {
     // Get all kittens
-    const kittens = await store.dispatch(reduxApi.actions.kittens.sync())
-    return { kittens, query }
+    const diamonds = await store.dispatch(reduxApi.actions.diamonds.sync())
+    console.log(diamonds)
+    return { diamonds, query }
   }
 
   constructor (props) {
@@ -48,49 +51,96 @@ class IndexPage extends Component {
     // Actual data request
     this.props.dispatch(reduxApi.actions.kittens.delete({ id: kittenId }, callbackWhenDone))
   }
-
+  async handleUpdateGallery () {
+    const diamonds = await this.props.dispatch(reduxApi.actions.diamonds.sync())
+    debugger;
+  }
   render () {
-    const { kittens } = this.props// dd
-
-    const kittenList = kittens.data
-      ? kittens.data.map((kitten, index) => <KittenItem
-        key={index}
-        kitten={kitten}
-        index={index}
-        inProgress={this.state.inProgress}
-        handleUpdate={this.handleUpdate.bind(this, kitten)}
-        handleDelete={this.handleDelete.bind(this)}
-      />)
-      : []
-
+    const { diamonds } = this.props// dd
     return <main>
       <PageHead
         title='Next.js (React) + Express REST API + MongoDB + Mongoose-Crudify boilerplate'
         description='Demo of nextjs-express-mongoose-crudify-boilerplate'
       />
 
-      <h1>Kittens</h1>
+      <div className='container-fluid'>
+        <div className='row filters justify-content-between'>
+          <div className='col-md-3'><div>Shape</div></div>
+          <div className='col-md-3'>
+              <MinMaxFilter updateGallery={this.handleUpdateGallery.bind(this)}>
 
-      {kittenList}
-      <div>
-        <input placeholder='Enter a kitten name' value={this.state.name} onChange={this.handleChangeInputText.bind(this)} disabled={this.state.inProgress} />
-        <button onClick={this.handleAdd.bind(this)} disabled={this.state.inProgress}>Add kitten</button>
-        <style jsx>{`
+              </MinMaxFilter>
+          </div>
+          <div className='col-md-3'><div>Color</div></div>
+          <div className='col-md-3'><div>Clarity</div></div>
+          <div className='col-md-3'><div>Cut</div></div>
+          <div className='col-md-3'><div>Polish</div></div>
+          <div className='col-md-3'><div>Symmetry</div></div>
+          <div className='col-md-3'><div>Fluorescent</div></div>
+        </div>
+        <div className='row'>
+          <div className='col-md-3'>
+            <span>Number of diamonds:</span> 113
+          </div>
+          <div className='col-md-3'>
+            <span>Total price:</span> $555420.15
+          </div>
+        </div>
+        <Table striped bordered hover className='mt-3'>
+          <thead>
+            <tr>
+              <th>Stock No</th>
+              <th>Shape</th>
+              <th>Carat</th>
+              <th>Clarity</th>
+              <th>Color</th>
+              <th>Cut</th>
+              <th>Polish</th>
+              <th>Symmetry</th>
+              <th>Fluorescent</th>
+              <th>CULET</th>
+              <th>Location</th>
+              <th>Image</th>
+              <th>CertificateLink</th>
+              <th>VideoLink</th>
+              <th>PPC</th>
+              <th>Total Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+              <td>@mdo</td>
+              <td>@mdo</td>
+              <td>@mdo</td>
+              <td>@mdo</td>
+              <td>@mdo</td>
+              <td>@mdo</td>
+              <td>@mdo</td>
+              <td>@mdo</td>
+              <td>@mdo</td>
+              <td>@mdo</td>
+              <td>@mdo</td>
+              <td>@mdo</td>
+            </tr>
+          </tbody>
+        </Table>
+      </div>
+
+
+
+      <style jsx>
+        {`
           div {
             margin-top: 1em;
           }
-        `}</style>
-      </div>
-
-      <h2>Routing</h2>
-      Current page slug: /{this.props.query.slug}
-      <ul>
-        <li><Link route='/about'><a>About</a></Link></li>
-        <li><Link route='/more/contact'><a>Contact</a></Link></li>
-      </ul>
-
+        `}
+      </style>
     </main>
   };
 }
 
-export default withKittens(IndexPage)
+export default withDiamonds(IndexPage)

@@ -3,14 +3,14 @@
 const mongooseCrudify = require('mongoose-crudify')
 
 const helpers = require('../services/helpers')
-const Kitten = require('../models/kitten')
+const Diamond = require('../models/diamond')
 
 module.exports = function (server) {
   // Docs: https://github.com/ryo718/mongoose-crudify
   server.use(
-    '/api/kittens',
+    '/api/diamonds',
     mongooseCrudify({
-      Model: Kitten,
+      Model: Diamond,
       selectFields: '-__v', // Hide '__v' property
       endResponseInAction: false,
 

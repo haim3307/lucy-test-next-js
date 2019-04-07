@@ -1,5 +1,5 @@
 const appName = 'nextjs-express-mongoose-crudify-boilerplate'
-const databaseName = 'nextjs-express-boilerplate'
+const databaseName = 'nextjs-test'
 const serverPort = process.env.PORT || 3122
 
 const completeConfig = {
