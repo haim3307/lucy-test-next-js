@@ -13,6 +13,14 @@ const app = next({ dev })
 const routes = require('./routes')
 const routerHandler = routes.getRequestHandler(app)
 
+const Diamond = require('./models/diamond')
+server.get('/api/diamonds', function (req, res) {
+  let q = Diamond.find({})
+  q.limit(100)
+  q.exec((err, diamonds) => {
+    res.send(diamonds)
+  })
+})
 const { config } = require('../config/config')
 
 app.prepare().then(() => {

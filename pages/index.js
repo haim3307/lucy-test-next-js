@@ -12,7 +12,6 @@ class IndexPage extends Component {
   static async getInitialProps ({ store, isServer, pathname, query }) {
     // Get all kittens
     const diamonds = await store.dispatch(reduxApi.actions.diamonds.sync())
-    console.log(diamonds)
     return { diamonds, query }
   }
 
@@ -34,26 +33,9 @@ class IndexPage extends Component {
     const newKitten = { name }
     this.props.dispatch(reduxApi.actions.kittens.post({}, { body: JSON.stringify(newKitten) }, callbackWhenDone))
   }
-
-  handleUpdate (kitten, index, kittenId, event) {
-    const name = window.prompt('New name?', kitten.name)
-    if (!name) return
-    const callbackWhenDone = () => this.setState({ inProgress: false })
-    this.setState({ inProgress: kittenId })
-    // Actual data request
-    const newKitten = { id: kittenId, name }
-    this.props.dispatch(reduxApi.actions.kittens.put({ id: kittenId }, { body: JSON.stringify(newKitten) }, callbackWhenDone))
-  }
-
-  handleDelete (index, kittenId, event) {
-    const callbackWhenDone = () => this.setState({ inProgress: false })
-    this.setState({ inProgress: kittenId })
-    // Actual data request
-    this.props.dispatch(reduxApi.actions.kittens.delete({ id: kittenId }, callbackWhenDone))
-  }
   async handleUpdateGallery () {
-    const diamonds = await this.props.dispatch(reduxApi.actions.diamonds.sync())
-    debugger;
+    //const diamonds = await this.props.dispatch()
+    this.props.dispatch(reduxApi.actions.diamonds.get('1', 'test'))
   }
   render () {
     const { diamonds } = this.props// dd
@@ -80,10 +62,10 @@ class IndexPage extends Component {
         </div>
         <div className='row'>
           <div className='col-md-3'>
-            <span>Number of diamonds:</span> 113
+            <span>Number of diamonds:</span> {diamonds.data.length}
           </div>
           <div className='col-md-3'>
-            <span>Total price:</span> $555420.15
+            <span>Total price:</span> ${diamonds.data.reduce((total, diamond) => total + diamond['Total Price'], 0).toFixed(3)}
           </div>
         </div>
         <Table striped bordered hover className='mt-3'>
@@ -108,24 +90,29 @@ class IndexPage extends Component {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-              <td>@mdo</td>
-            </tr>
+            { diamonds.data.map((diamond, index) =>
+              <tr key={index}>
+                <td>{diamond['Stock NO']}</td>
+                <td>{diamond.Shape}</td>
+                <td>{diamond.Carat}</td>
+                <td>{diamond.Clarity}</td>
+                <td>{diamond.Color}</td>
+                <td>{diamond.Cut}</td>
+                <td>{diamond.Polish}</td>
+                <td>{diamond.Symmetry}</td>
+                <td>{diamond.Fluorescent}</td>
+                <td>{diamond.CULET}</td>
+                <td>{diamond.CULET}</td>
+                <td><img src={diamond.ImageLink} width='30' /></td>
+                <td><a href={diamond.CertificateLink}>Link</a></td>
+                <td><a href={diamond.VideoLink}>Link</a></td>
+                <td>{diamond.PPC}</td>
+                <td>{diamond['Total Price']}</td>
+              </tr>
+            )
+
+
+            }
           </tbody>
         </Table>
       </div>

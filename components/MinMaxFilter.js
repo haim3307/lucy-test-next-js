@@ -6,13 +6,15 @@ export default class MinMaxFilter extends React.Component {
     this.state = { showFilterContent: false, min: 0.3, max: 15 }
   }
   async handleInputChange (event) {
-    const target = event.target
-    const value = target.type === 'checkbox' ? target.checked : target.value
-    const name = target.name
-    this.setState({
-      [name]: value
-    })
-    this.props.updateGallery('carat', '0.3-3')
+    if (event) {
+      const target = event.target
+      const value = target.type === 'checkbox' ? target.checked : target.value
+      const name = target.name
+      this.setState({
+        [name]: value
+      })
+      this.props.updateGallery('carat', '0.3-3')
+    }
   }
   toggleFilter () {
     this.setState({
