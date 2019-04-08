@@ -123,8 +123,8 @@ class IndexPage extends Component {
                 <td>{diamond.Symmetry}</td>
                 <td>{diamond.Fluorescent}</td>
                 <td>{diamond.CULET}</td>
-                <td>{diamond.CULET}</td>
-                <td><img src={diamond.ImageLink} width='30' /></td>
+                <td>{diamond.Location}</td>
+                <td align='center'><img src={diamond.ImageLink} width='70' /></td>
                 <td><a href={diamond.CertificateLink}>Link</a></td>
                 <td><a href={diamond.VideoLink}>Link</a></td>
                 <td>{diamond.PPC}</td>

@@ -50,15 +50,15 @@ export default class MultipleFilter extends React.Component {
           }
           div.filterContent{
             position: absolute;
-            top: 39px;
+            top: 63px;
             z-index: 9999;
-            width: 75%;
+            width: 85%;
             background: white;
           }
           div.filterContent .filter-option{
             margin: 0px auto;
             border:0.5px solid #efefef;
-            height:25px;
+            height:35px;
           }
           .filter-option.active{
             color:white;
