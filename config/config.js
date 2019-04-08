@@ -20,7 +20,7 @@ const completeConfig = {
   },
 
   production: {
-    appUrl: `https://lucy-test-next-js.herokuapp.com//`
+    appUrl: `https://lucy-test-next-js.herokuapp.com/`
   }
 
 }
