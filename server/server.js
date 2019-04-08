@@ -14,6 +14,25 @@ const routes = require('./routes')
 const routerHandler = routes.getRequestHandler(app)
 
 const Diamond = require('./models/diamond')
+
+const staticTotalPriceQuery = Diamond.aggregate(
+  [
+    {
+      $group:
+        {
+          _id: null,
+          'Total Price': { $sum: "$Total Price" }
+        }
+    },
+    {
+      $project: {
+        _id: 0,
+        'Total Price': '$Total Price'
+      }
+    }
+  ]
+)
+
 server.get('/api/diamonds', function (req, res) {
   let findQuery = {}
   if ('carat' in req.query) {
@@ -31,7 +50,11 @@ server.get('/api/diamonds', function (req, res) {
   let q = Diamond.find(findQuery)
   q.limit(100)
   q.exec((err, diamonds) => {
-    res.send(diamonds)
+    if (err) throw err
+    staticTotalPriceQuery.exec((err, staticTotalPrice) => {
+      if (err) throw err
+      res.send({ data: diamonds, staticTotalPrice: staticTotalPrice[0]['Total Price'] , staticTotalCount: 'N/A' })
+    })
   })
 })
 const { config } = require('../config/config')

@@ -36,19 +36,21 @@ class IndexPage extends Component {
   }
   render () {
     const { diamonds } = this.props// dd
-    return <main>
-      <PageHead
-        title='Next.js (React) + Express REST API + MongoDB + Mongoose-Crudify boilerplate'
-        description='Demo of nextjs-express-mongoose-crudify-boilerplate'
-      />
+    const diamondsArray = diamonds.data[0].data
+    const { staticTotalPrice, staticTotalCount } = diamonds.data[0]
+     return <main>
+       <PageHead
+         title='Lucy Gallery Test'
+         description='Lucy Gallery Test'
+       />
 
-      <div className='container-fluid'>
-        <div className='row filters justify-content-between'>
-          <div className='col-md-3'>
-            <div>Shape</div>
-          </div>
-          <div className='col-md-3'>
-            <MinMaxFilter updateGallery={this.handleUpdateGallery.bind(this)} />
+       <div className='container-fluid'>
+         <div className='row filters justify-content-between'>
+           <div className='col-md-3'>
+             <div>Shape</div>
+           </div>
+           <div className='col-md-3'>
+             <MinMaxFilter updateGallery={this.handleUpdateGallery.bind(this)} />
           </div>
           <div className='col-md-3'>
             <MultipleFilter updateGallery={this.handleUpdateGallery.bind(this)} field='Color' options={[
@@ -83,10 +85,16 @@ class IndexPage extends Component {
         </div>
         <div className='row'>
           <div className='col-md-3'>
-            <span>Number of diamonds:</span> {diamonds.data.length}
+            <strong>Number of diamonds:</strong> {diamondsArray.length}
           </div>
           <div className='col-md-3'>
-            <span>Total price:</span> ${diamonds.data.reduce((total, diamond) => total + diamond['Total Price'], 0).toFixed(3)}
+            <strong>Results Total price:</strong> ${diamondsArray.reduce((total, diamond) => total + diamond['Total Price'], 0).toFixed(3)}
+          </div>
+          <div className='col-md-3'>
+            <strong>All Diamonds Total price:</strong> ${staticTotalPrice}
+          </div>
+          <div className='col-md-3'>
+            <strong>All Diamonds Length:</strong> {staticTotalCount}
           </div>
         </div>
         <Table striped bordered hover className='mt-3'>
@@ -111,7 +119,7 @@ class IndexPage extends Component {
             </tr>
           </thead>
           <tbody>
-            { diamonds.data.map((diamond, index) =>
+            { diamondsArray.map((diamond, index) =>
               <tr key={index}>
                 <td>{diamond['Stock NO']}</td>
                 <td>{diamond.Shape}</td>
