@@ -20,6 +20,14 @@ server.get('/api/diamonds', function (req, res) {
     let carat = req.query.carat.split('-')
     findQuery['Carat'] = { $gte: parseFloat(carat[0]), $lte: parseFloat(carat[1]) }
   }
+  else {
+    const allowedFields = ['Color', 'Clarity', 'Cut', 'Polish', 'Symmetry', 'Fluorescent']
+    allowedFields.forEach((allowedField) => {
+      if (allowedField in req.query) {
+        findQuery[allowedField] = { $in: req.query.Color.split(',') }
+      }
+    })
+  }
   let q = Diamond.find(findQuery)
   q.limit(100)
   q.exec((err, diamonds) => {

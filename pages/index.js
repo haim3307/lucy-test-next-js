@@ -7,6 +7,7 @@ import PageHead from '../components/PageHead'
 import MinMaxFilter from '../components/MinMaxFilter'
 
 import Table from 'react-bootstrap/Table'
+import MultipleFilter from '../components/MultipleFilter'
 
 class IndexPage extends Component {
   static async getInitialProps ({ store, isServer, pathname, query }) {
@@ -17,7 +18,7 @@ class IndexPage extends Component {
 
   constructor (props) {
     super(props)
-    this.state = { name: '' }
+    this.state = { name: '', query: {} }
   }
 
   handleChangeInputText (event) {
@@ -33,10 +34,11 @@ class IndexPage extends Component {
     const newKitten = { name }
     this.props.dispatch(reduxApi.actions.kittens.post({}, { body: JSON.stringify(newKitten) }, callbackWhenDone))
   }
-  async handleUpdateGallery (prop,val) {
-    //const diamonds = await this.props.dispatch()
-
-    this.props.dispatch(reduxApi.actions.diamonds.get({[prop]:val}))
+  async handleUpdateGallery (prop, val) {
+    let query = { ...this.state.query }
+    query[prop] = val
+    this.setState({ query })
+    this.props.dispatch(reduxApi.actions.diamonds.get(query))
   }
   render () {
     const { diamonds } = this.props// dd
@@ -48,13 +50,17 @@ class IndexPage extends Component {
 
       <div className='container-fluid'>
         <div className='row filters justify-content-between'>
-          <div className='col-md-3'><div>Shape</div></div>
           <div className='col-md-3'>
-              <MinMaxFilter updateGallery={this.handleUpdateGallery.bind(this)}>
-
-              </MinMaxFilter>
+            <div>Shape</div>
           </div>
-          <div className='col-md-3'><div>Color</div></div>
+          <div className='col-md-3'>
+            <MinMaxFilter updateGallery={this.handleUpdateGallery.bind(this)} />
+          </div>
+          <div className='col-md-3'>
+            <MultipleFilter updateGallery={this.handleUpdateGallery.bind(this)} field='Color' options={[
+              'E','F','G','H','D','FANCY','I','S-T','Q-R'
+            ]}/>
+          </div>
           <div className='col-md-3'><div>Clarity</div></div>
           <div className='col-md-3'><div>Cut</div></div>
           <div className='col-md-3'><div>Polish</div></div>
