@@ -24,20 +24,14 @@ class IndexPage extends Component {
   handleChangeInputText (event) {
     this.setState({ name: event.target.value })
   }
-
-  handleAdd (event) {
-    const { name } = this.state
-    if (!name) return
-    const callbackWhenDone = () => this.setState({ name: '', inProgress: false })
-    this.setState({ inProgress: true })
-    // Actual data request
-    const newKitten = { name }
-    this.props.dispatch(reduxApi.actions.kittens.post({}, { body: JSON.stringify(newKitten) }, callbackWhenDone))
-  }
   async handleUpdateGallery (prop, val) {
     let query = { ...this.state.query }
     query[prop] = val
     this.setState({ query })
+    const removeEmpty = (obj) => {
+      Object.keys(obj).forEach((key) => (obj[key] == null || !obj[key].length) && delete obj[key])
+    }
+    removeEmpty(query)
     this.props.dispatch(reduxApi.actions.diamonds.get(query))
   }
   render () {
@@ -58,14 +52,34 @@ class IndexPage extends Component {
           </div>
           <div className='col-md-3'>
             <MultipleFilter updateGallery={this.handleUpdateGallery.bind(this)} field='Color' options={[
-              'E','F','G','H','D','FANCY','I','S-T','Q-R'
-            ]}/>
+              'E', 'F', 'G', 'H', 'D', 'FANCY', 'I', 'S-T', 'Q-R'
+            ]} />
           </div>
-          <div className='col-md-3'><div>Clarity</div></div>
-          <div className='col-md-3'><div>Cut</div></div>
-          <div className='col-md-3'><div>Polish</div></div>
-          <div className='col-md-3'><div>Symmetry</div></div>
-          <div className='col-md-3'><div>Fluorescent</div></div>
+          <div className='col-md-3'>
+            <MultipleFilter updateGallery={this.handleUpdateGallery.bind(this)} field='Clarity' options={[
+              'VVS1', 'VVS2', 'SI1', 'VS1', 'I2', 'VS2', 'SI2', 'IF'
+            ]} />
+          </div>
+          <div className='col-md-3'>
+            <MultipleFilter updateGallery={this.handleUpdateGallery.bind(this)} field='Cut' options={[
+              'EX', 'VG', 'GD'
+            ]} />
+          </div>
+          <div className='col-md-3'>
+            <MultipleFilter updateGallery={this.handleUpdateGallery.bind(this)} field='Polish' options={[
+              'EX', 'VG', 'GD'
+            ]} />
+          </div>
+          <div className='col-md-3'>
+            <MultipleFilter updateGallery={this.handleUpdateGallery.bind(this)} field='Symmetry' options={[
+              'EX', 'VG', 'GD'
+            ]} />
+          </div>
+          <div className='col-md-3'>
+            <MultipleFilter updateGallery={this.handleUpdateGallery.bind(this)} field='Fluorescent' options={[
+              'M', 'N', 'ST', 'F'
+            ]} />
+          </div>
         </div>
         <div className='row'>
           <div className='col-md-3'>

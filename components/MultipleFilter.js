@@ -50,7 +50,7 @@ export default class MultipleFilter extends React.Component {
           }
           div.filterContent{
             position: absolute;
-            bottom: -75px;
+            top: 39px;
             z-index: 9999;
             width: 75%;
             background: white;

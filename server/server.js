@@ -24,7 +24,7 @@ server.get('/api/diamonds', function (req, res) {
     const allowedFields = ['Color', 'Clarity', 'Cut', 'Polish', 'Symmetry', 'Fluorescent']
     allowedFields.forEach((allowedField) => {
       if (allowedField in req.query) {
-        findQuery[allowedField] = { $in: req.query.Color.split(',') }
+        findQuery[allowedField] = { $in: req.query[allowedField].split(',') }
       }
     })
   }
